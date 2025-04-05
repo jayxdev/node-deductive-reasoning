@@ -9,34 +9,109 @@ let gameStarted = false;
 let currentGridSize = 3;
 let canAnswer = true;
 
-const correctSound = document.getElementById('correctSound');
-const wrongSound = document.getElementById('wrongSound');
-const gameStartSound = document.getElementById('gameStartSound');
-const gameOverSound = document.getElementById('gameOverSound');
-const timerWarningSound = document.getElementById('timerWarningSound');
-const timerCountdownSound = document.getElementById('timerCountdownSound');
-const backgroundMusic = document.getElementById('backgroundMusic');
+const ncorrectSound = document.getElementById('ncorrectSound');
+const nwrongSound = document.getElementById('nwrongSound');
+const ngameStartSound = document.getElementById('ngameStartSound');
+const ngameOverSound = document.getElementById('ngameOverSound');
+const ntimerWarningSound = document.getElementById('ntimerWarningSound');
+const ntimerCountdownSound = document.getElementById('ntimerCountdownSound');
+const nbackgroundMusic = document.getElementById('nbackgroundMusic');
 
+const mcorrectSound = document.getElementById('mcorrectSound');
+const mwrongSound = document.getElementById('mwrongSound');
+const mgameStartSound = document.getElementById('mgameStartSound');
+const mgameOverSound = document.getElementById('mgameOverSound');
+const mtimerWarningSound = document.getElementById('mtimerWarningSound');
+const mtimerCountdownSound = document.getElementById('mtimerCountdownSound');
+const mbackgroundMusic = document.getElementById('mbackgroundMusic');
 
-backgroundMusic.loop = true;
-backgroundMusic.volume = 0.05;
+let correctSound = ncorrectSound;
+let wrongSound = nwrongSound;
+let gameStartSound = ngameStartSound;
+let gameOverSound = ngameOverSound; // Fixed duplicate assignment
+let timerWarningSound = ntimerWarningSound;
+let timerCountdownSound = ntimerCountdownSound;
+let backgroundMusic = nbackgroundMusic;
 
+let isMuted = false; // Sound effects mute state
+let isBgMusicPlaying = false; // Background music state
+let isMemeMode = false; // Default to Normal Mode (unchecked)
+
+// Set background music properties
+function setBackgroundMusicProperties() {
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.05;
+}
+
+// Switch sound sets based on mode
+function changeSound() {
+    const wasPlaying = isBgMusicPlaying && !backgroundMusic.paused;
+    if (backgroundMusic) backgroundMusic.pause(); // Pause current music
+    
+    if (isMemeMode) {
+        correctSound = mcorrectSound;
+        wrongSound = mwrongSound;
+        gameStartSound = mgameStartSound;
+        gameOverSound = mgameOverSound;
+        timerWarningSound = mtimerWarningSound;
+        timerCountdownSound = mtimerCountdownSound;
+        backgroundMusic = mbackgroundMusic;
+    } else {
+        correctSound = ncorrectSound;
+        wrongSound = nwrongSound;
+        gameStartSound = ngameStartSound;
+        gameOverSound = ngameOverSound;
+        timerWarningSound = ntimerWarningSound;
+        timerCountdownSound = ntimerCountdownSound;
+        backgroundMusic = nbackgroundMusic;
+    }
+    
+    setBackgroundMusicProperties();
+    if (wasPlaying) {
+        backgroundMusic.play().catch(error => console.error('Failed to play background music:', error));
+    }
+}
+
+// Toggle event listener for mode switch
+const musicToggle = document.getElementById('musicToggle');
+musicToggle.addEventListener('change', () => {
+    isMemeMode = musicToggle.checked; // True = Meme Mode, False = Normal Mode
+    changeSound();
+});
+
+// Toggle background music
 function toggleBackgroundMusic() {
     if (backgroundMusic.paused) {
         backgroundMusic.play().catch(error => console.error('Failed to play background music:', error));
-        document.getElementById('bgmusicbutton').textContent = 'Pause Music';
+        document.getElementById('bgmusicbutton').textContent = '🔇  Music';
         document.getElementById('bgmusicbutton').classList.add('playing');
+        document.getElementById('bgmusicbutton').classList.remove('muted');
+        isBgMusicPlaying = true;
     } else {
         backgroundMusic.pause();
-        document.getElementById('bgmusicbutton').textContent = 'Play Music';
+        document.getElementById('bgmusicbutton').textContent = '🔊  Music';
         document.getElementById('bgmusicbutton').classList.remove('playing');
+        document.getElementById('bgmusicbutton').classList.add('muted');
+        isBgMusicPlaying = false;
     }
 }
 
 document.getElementById('bgmusicbutton').addEventListener('click', toggleBackgroundMusic);
 
+// Toggle sound effects mute
+const muteButton = document.getElementById('soundButton');
+muteButton.addEventListener('click', () => {
+    isMuted = !isMuted;
+    muteButton.textContent = isMuted ? '🔊 Sound' : '🔇 Sound';
+    muteButton.classList.toggle('muted');
+    muteButton.classList.toggle('playing', !isMuted);
+});
+
+// Play sound with mute check
 function playSound(soundElement) {
-    soundElement.play().catch(error => console.error(`Failed to play ${soundElement.id}:`, error));
+    if (!isMuted && soundElement) {
+        soundElement.play().catch(error => console.error(`Failed to play ${soundElement.id}:`, error));
+    }
 }
 
 function startTimer() {
@@ -364,6 +439,8 @@ function handleLogin() {
             if (leaderboard.some(entry => entry.name.toLowerCase() === name.toLowerCase())) {
                 userName = name;
                 document.getElementById('username').value = userName;
+                document.getElementById('maxScore').textContent = leaderboard.find(entry => entry.name.toLowerCase() === name.toLowerCase()).score;
+                document.getElementById('currentRank').textContent = leaderboard.findIndex(entry => entry.name.toLowerCase() === name.toLowerCase())+1;
                 document.getElementById('loginModal').style.display = 'none';
                 fetchNewGame();
             } else {

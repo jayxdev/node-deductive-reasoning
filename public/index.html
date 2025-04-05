@@ -24,22 +24,22 @@
                     <label for="gridSize">Grid Size:</label>
                     <input type="range" id="gridSize" min="3" max="5" value="3">
                 </div>
-                <p>Score: <span id="score">0</span></p>
-                <p>Best Score: <span id="maxScore">0</span></p>
+                <p>Score: <span id="score">-</span></p>
+                <p>Best Score: <span id="maxScore">-</span></p>
                 <p>Your Rank: <span id="currentRank">-</span></p>
                 <h2>Instructions</h2>
                 <p>Replace the question mark with the correct shape. Full game ends after 3 wrong answers or 2 minutes.</p>
                 <h3>Leaderboard</h3>
                 <div class="leaderboard-container">
                     <table id="leaderboard">
-                        <thead>
+                        <thead class="table-header">
                             <tr>
                                 <th>Rank</th>
                                 <th>Name</th>
                                 <th>Score</th>
                             </tr>
                         </thead>
-                        <tbody></tbody>
+                        <tbody class="table-body"></tbody>
                     </table>
                 </div>
             </div>
@@ -91,22 +91,34 @@
             <button id="submitRegister">Submit</button>
         </div>
     </div>
-    <button id="bgmusicbutton" class="bgmusicbutton">Toggle Music</button>
-    <!-- Background Music and Sound Effects 
-      <audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-1.mp3"></audio>
-    <audio id="wrongSound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
-    <audio id="gameStartSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
-    <audio id="gameOverSound" src="https://www.soundjay.com/buttons/sounds/button-4.mp3"></audio>
-    <audio id="timerWarningSound" src="https://www.soundjay.com/buttons/sounds/beep-05.mp3"></audio>
-    <audio id="timerCountdownSound" src="https://www.soundjay.com/buttons/sounds/beep-06.mp3"></audio> -->
-
-    <audio id="backgroundMusic" src="https://www.myinstants.com/media/sounds/my-movie-6_0RlWMvM.mp3" loop></audio>
-    <audio id="correctSound" src="https://www.myinstants.com/media/sounds/meme_lgkJmX6.mp3"></audio>
-    <audio id="wrongSound" src="https://www.myinstants.com/media/sounds/emotional-damage_svaNMfN.mp3"></audio>
-    <audio id="gameStartSound" src="https://www.myinstants.com/media/sounds/spiderman-meme-song.mp3"></audio>
-    <audio id="gameOverSound" src="https://www.myinstants.com/media/sounds/tf_nemesis.mp3"></audio>
-    <audio id="timerWarningSound" src="https://www.myinstants.com/media/sounds/danger-alarm-sound-effect-meme.mp3"></audio>
-    <audio id="timerCountdownSound" src="https://www.soundjay.com/buttons/sounds/beep-06.mp3"></audio>
+    <div id="sound" class="sound">
+        <div class="mode-toggle">
+            <label class="toggle-label" for="musicToggle">Normal Mode</label>
+            <label class="toggle-switch">
+                <input type="checkbox" id="musicToggle" unchecked>
+                <span class="toggle-slider"></span>
+            </label>
+            <label class="toggle-label" for="musicToggle">Meme Mode</label>
+        </div>
+        <button id="soundButton" class="mute-button playing">🔊 Sound</button> <!-- New sound button -->
+        <button id="bgmusicbutton" class="mute-button playing">🔊 Music</button> <!-- New music button -->
+    </div>
+    <!-- Audio elements for normal sounds -->
+    <audio id="nbackgroundMusic" src="https://www.myinstants.com/media/sounds/my-movie-6_0RlWMvM.mp3" loop></audio>
+    <audio id="ncorrectSound" src="https://www.soundjay.com/buttons/sounds/button-1.mp3"></audio>
+    <audio id="nwrongSound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+    <audio id="ngameStartSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+    <audio id="ngameOverSound" src="https://www.soundjay.com/buttons/sounds/button-4.mp3"></audio>
+    <audio id="ntimerWarningSound" src="https://www.soundjay.com/buttons/sounds/beep-05.mp3"></audio>
+    <audio id="ntimerCountdownSound" src="https://www.soundjay.com/buttons/sounds/beep-06.mp3"></audio>
+    <!-- Audio elements for meme sounds -->
+    <audio id="mbackgroundMusic" src="https://www.myinstants.com/media/sounds/my-movie-6_0RlWMvM.mp3" loop></audio>
+    <audio id="mcorrectSound" src="https://www.myinstants.com/media/sounds/meme_lgkJmX6.mp3"></audio>
+    <audio id="mwrongSound" src="https://www.myinstants.com/media/sounds/emotional-damage_svaNMfN.mp3"></audio>
+    <audio id="mgameStartSound" src="https://www.myinstants.com/media/sounds/spiderman-meme-song.mp3"></audio>
+    <audio id="mgameOverSound" src="https://www.myinstants.com/media/sounds/tf_nemesis.mp3"></audio>
+    <audio id="mtimerWarningSound" src="https://www.myinstants.com/media/sounds/danger-alarm-sound-effect-meme.mp3"></audio>
+    <audio id="mtimerCountdownSound" src="https://www.soundjay.com/buttons/sounds/beep-06.mp3"></audio>
     <script src="script.js"></script>
 </body>
 </html>

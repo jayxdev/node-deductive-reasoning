@@ -4,7 +4,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 // MongoDB connection using environment variable
-const uri =  process.env.MONGODB_URI; // Access from env
+const uri = process.env.MONGODB_URI; // Access from env
 const client = new MongoClient(uri);
 
 let leaderboardCollection;

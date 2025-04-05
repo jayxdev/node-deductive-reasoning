@@ -17,7 +17,7 @@ body {
 
 .timer-display {
     position: fixed;
-    top: 20px;
+    top: 12px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 2.5em;
@@ -231,8 +231,8 @@ h2 {
 
 .wrong-count {
     position: fixed;
-    top: 70px; /* Below timer (2.5em font + padding) */
-    left: 50%;
+    top: 3%; 
+    left: 75%;
     transform: translateX(-50%);
     font-size: 1.2em;
     font-weight: bold;
@@ -248,10 +248,10 @@ h2 {
 
 .leaderboard-container {
     max-height: 220px;
-    overflow-y: auto;
     margin-top: 20px;
     border-radius: 10px;
     background: rgba(255, 255, 255, 0.1);
+    overflow-y: auto;
 }
 
 #leaderboard {
@@ -267,7 +267,8 @@ h2 {
 }
 
 #leaderboard th {
-    background: rgba(255, 255, 255, 0.15);
+    background: #2a519a;
+    z-index: 1000;
     position: sticky;
     top: 0;
 }
@@ -336,6 +337,19 @@ h2 {
         padding: 15px;
     }
 
+    .wrong-count {
+        position: fixed;
+        top: 15%; /* Below timer (2.5em font + padding) */
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #ffeb3b;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        z-index: 1000;
+        display: none; /* Hidden by default */
+    }
+    
     .sidebar {
         position: fixed;
         top: 0;
@@ -374,7 +388,7 @@ h2 {
     }
 
     .timer-display {
-        font-size: 2em;
+        font-size: 4em;
     }
 
     #startGame {
@@ -394,41 +408,113 @@ h2 {
     }
 
     .timer-display {
-        font-size: 1.5em;
+        font-size: 4em;
     }
 
     #startGame {
         width: 150px;
     }
 }
-.bgmusicbutton {
+.sound{
+    display: flex;
     position: fixed;
+    
     bottom: 20px;
     right: 20px;
+}
+
+.mute-button {
     background: rgba(255, 255, 255, 0.2);
     border: none;
     border-radius: 50%;
     width: 60px;
     height: 60px;
     cursor: pointer;
+    font: 1em sans-serif;
     transition: transform 0.3s ease, background 0.3s ease;
 }
 
-.bgmusicbutton:hover {
+.mute-button:hover {
     transform: scale(1.1);
     background: rgba(255, 255, 255, 0.4);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
-.bgmusicbutton:active { 
+.mute-button:active { 
     transform: scale(0.95);
 }
 
-.bgmusicbutton.playing {
+.mute-button.playing{
     background: rgba(255, 235, 59, 0.8); /* Yellow when playing */
 }
-.bgmusicbutton.paused {
+.mute-button.paused{
     background: rgba(158, 158, 158, 0.8); /* Grey when paused */
 }
+
+
+/*sound toggle button*/
+.mode-toggle {
+    display: flex;
+    align-items: center; /* Vertically center labels and slider */
+    gap: 6px; /* Tighten spacing */
+    z-index: 1001;
+    background: rgba(0, 0, 0, 0.2); /* Subtle backdrop */
+    padding: 4px 8px;
+    border-radius: 16px; /* Rounded container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Depth */
+}
+
+.toggle-label {
+    font-size: 0.9em; /* Slightly smaller for balance */
+    font-weight: 600;
+    color: #ffeb3b; /* Yellow to match timer */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    line-height: 28px; /* Match slider height for vertical alignment */
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-flex; /* Inline with labels */
+    align-items: center;
+}
+
+#musicToggle {
+    display: none; /* Hide checkbox */
+}
+
+.toggle-slider {
+    position: relative;
+    width: 48px; /* Compact yet elegant */
+    height: 24px;
+    background: linear-gradient(90deg, #616161, #9e9e9e); /* Grey gradient for Silent */
+    border-radius: 12px; /* Fully rounded ends */
+    cursor: pointer;
+    border: 1px solid #424242; /* Subtle border */
+    transition: background 0.3s ease;
+}
+
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 2px;
+    top: 2px;
+    background: linear-gradient(45deg, #e0e0e0, #ffffff); /* Shiny knob */
+    border-radius: 50%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+#musicToggle:checked ~ .toggle-slider {
+    background: linear-gradient(90deg, #ff6d00, #ffca28); /* Orange-yellow gradient for Music */
+    border-color: #ff8f00;
+}
+
+#musicToggle:checked ~ .toggle-slider::before {
+    transform: translateX(24px); /* Adjusted for 48px width */
+    background: linear-gradient(45deg, #ffeb3b, #fff176); /* Bright yellow knob */
+}
+
 
 .grid-cell {
     transition: background-color 0.3s ease; /* Smooth color change */
