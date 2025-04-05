@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capgemini Puzzle Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:,">
+</head>
+<body>
+    <div id="timerDisplay" class="timer-display">2:00</div>
+    <div id="wrongCountDisplay" class="wrong-count" style="display: none;">Wrong Answers: <span id="wrongCount">0</span>/3</div>
+    <div class="burger" id="burger">☰</div>
+    <div class="container">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-content" id="sidebarContent">
+                <h1>Capgemini Puzzle Game 🧩</h1>
+                <div class="control-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" placeholder="Enter unique name" value="" readonly>
+                    <span id="usernameError" class="error"></span>
+                </div>
+                <div class="control-group">
+                    <label for="gridSize">Grid Size:</label>
+                    <input type="range" id="gridSize" min="3" max="5" value="3">
+                </div>
+                <p>Score: <span id="score">0</span></p>
+                <p>Best Score: <span id="maxScore">0</span></p>
+                <p>Your Rank: <span id="currentRank">-</span></p>
+                <h2>Instructions</h2>
+                <p>Replace the question mark with the correct shape. Full game ends after 3 wrong answers or 2 minutes.</p>
+                <h3>Leaderboard</h3>
+                <div class="leaderboard-container">
+                    <table id="leaderboard">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Name</th>
+                                <th>Score</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="game-area" id="gameArea">
+            <div id="grid" class="grid"></div>
+            <div id="options" class="options">
+                <h4>Pick the right shape:</h4>
+                <div id="shapeButtons"></div>
+                <button id="startGame">Start Game</button>
+            </div>
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+    <div id="countdownModal" class="modal">
+        <div class="modal-content">
+            <h2>Game Starting</h2>
+            <p id="countdown">3</p>
+        </div>
+    </div>
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <h2>Game Over</h2>
+            <p id="finalScoreMessage"></p>
+            <button id="closeModal">Close</button>
+        </div>
+    </div>
+    <div id="authModal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome</h2>
+            <button id="loginBtn">Login</button>
+            <button id="registerBtn">Register</button>
+        </div>
+    </div>
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2>Login</h2>
+            <input type="text" id="loginUsername" placeholder="Enter your username">
+            <span id="loginError" class="error"></span>
+            <button id="submitLogin">Submit</button>
+            <button id="switchToRegister" style="display: none;">Register Instead</button> <!-- New button -->
+        </div>
+    </div>
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <h2>Register</h2>
+            <input type="text" id="registerUsername" placeholder="Enter a username">
+            <span id="registerError" class="error"></span>
+            <button id="submitRegister">Submit</button>
+        </div>
+    </div>
+    <audio id="correctSound" src="https://www.soundjay.com/buttons/sounds/button-1.mp3"></audio>
+    <audio id="wrongSound" src="https://www.soundjay.com/buttons/beep-02.mp3"></audio>
+    <audio id="gameStartSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+    <audio id="gameOverSound" src="https://www.soundjay.com/buttons/sounds/button-4.mp3"></audio>
+    <audio id="timerWarningSound" src="https://www.soundjay.com/buttons/sounds/beep-05.mp3"></audio>
+    <audio id="timerCountdownSound" src="https://www.soundjay.com/buttons/sounds/beep-06.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
