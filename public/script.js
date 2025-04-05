@@ -15,6 +15,25 @@ const gameStartSound = document.getElementById('gameStartSound');
 const gameOverSound = document.getElementById('gameOverSound');
 const timerWarningSound = document.getElementById('timerWarningSound');
 const timerCountdownSound = document.getElementById('timerCountdownSound');
+const backgroundMusic = document.getElementById('backgroundMusic');
+
+
+backgroundMusic.loop = true;
+backgroundMusic.volume = 0.05;
+
+function toggleBackgroundMusic() {
+    if (backgroundMusic.paused) {
+        backgroundMusic.play().catch(error => console.error('Failed to play background music:', error));
+        document.getElementById('bgmusicbutton').textContent = 'Pause Music';
+        document.getElementById('bgmusicbutton').classList.add('playing');
+    } else {
+        backgroundMusic.pause();
+        document.getElementById('bgmusicbutton').textContent = 'Play Music';
+        document.getElementById('bgmusicbutton').classList.remove('playing');
+    }
+}
+
+document.getElementById('bgmusicbutton').addEventListener('click', toggleBackgroundMusic);
 
 function playSound(soundElement) {
     soundElement.play().catch(error => console.error(`Failed to play ${soundElement.id}:`, error));
@@ -33,9 +52,11 @@ function startTimer() {
             timerDisplay.textContent = timeString;
             if (timeLeft <= 30) {
                 timerDisplay.classList.add('warning');
-                if (timeLeft <= 30 && timeLeft >= 27) playSound(timerWarningSound); // Play twice at 30s
-                if (timeLeft <= 10 && timeLeft > 0) playSound(timerCountdownSound); // Every second for last 10s
-            } else {
+                if (timeLeft <= 30 && timeLeft >= 27){playSound(timerWarningSound);} // Play twice at 30s
+                else timerWarningSound.pause();
+                if (timeLeft <= 10 && timeLeft > 0){ playSound(timerCountdownSound);} // Every second for last 10s
+            } 
+            else {
                 timerDisplay.classList.remove('warning');
             }
         } else {
@@ -60,9 +81,10 @@ function showCountdown(callback) {
         }
         if (count === 0) {
             countdown.textContent = 'Go!';
-            playSound(timerWarningSound);
         }
         if (count < 0) {
+            gameStartSound.pause(); // Pause the sound after countdown
+            gameStartSound.currentTime = 0; // Reset to start
             clearInterval(interval);
             modal.style.display = 'none';
             callback();
@@ -147,9 +169,23 @@ function checkAnswer(selectedShape, ans) {
     canAnswer = false;
     const messageDiv = document.getElementById('message');
     messageDiv.style.opacity = '1';
+    
+    // Find the question mark cell
+    const gridCells = document.querySelectorAll('.grid-cell');
+    let questionCell;
+    gridCells.forEach(cell => {
+        if (cell.textContent === '❔') {
+            questionCell = cell;
+        }
+    });
+
+    // Show selected shape with feedback
+    questionCell.textContent = selectedShape; // Display user's choice
     if (selectedShape === ans) {
         messageDiv.textContent = 'Correct! ✅';
         messageDiv.className = 'message success';
+        questionCell.classList.add('correct');
+        questionCell.style.backgroundColor = '#4caf50'; // Green for correct
         playSound(correctSound);
         if (gameStarted) {
             score += 1;
@@ -158,21 +194,37 @@ function checkAnswer(selectedShape, ans) {
     } else {
         messageDiv.textContent = `Wrong! Correct shape was ${ans}.`;
         messageDiv.className = 'message gerror';
+        questionCell.classList.add('wrong');
+        questionCell.style.backgroundColor = '#f44336'; // Red for wrong
         playSound(wrongSound);
         if (gameStarted) {
             wrongCount += 1;
             document.getElementById('wrongCount').textContent = wrongCount;
             if (wrongCount >= 3) {
+                playSound(gameOverSound);
                 endGame('Too Many Wrong Answers!');
                 return;
             }
         }
     }
+
     updateScore();
+
+    // After 1 second, show the correct answer
     setTimeout(() => {
-        messageDiv.style.opacity = '0';
-        setTimeout(fetchNewGame, 500);
-    }, 1500);
+        questionCell.textContent = ans;
+        questionCell.style.backgroundColor = ''; // Reset to default
+        questionCell.className = 'grid-cell'; // Ensure consistent styling
+        
+        // Fade out message and fetch new game after another 0.5 seconds
+        setTimeout(() => {
+            questionCell.textContent = ans;
+            questionCell.classList.remove('correct', 'wrong'); // Remove feedback classes
+            questionCell.className = 'grid-cell';
+            messageDiv.style.opacity = '0';
+            setTimeout(fetchNewGame, 200);
+        }, 200);
+    }, 500);
 }
 
 function updateScore() {
@@ -384,11 +436,13 @@ document.addEventListener('click', closeSidebarOnOutsideClick);
 document.getElementById('loginBtn').addEventListener('click', () => {
     document.getElementById('authModal').style.display = 'none';
     document.getElementById('loginModal').style.display = 'flex';
+    toggleBackgroundMusic(); // Play music when login modal opens
 });
 
 document.getElementById('registerBtn').addEventListener('click', () => {
     document.getElementById('authModal').style.display = 'none';
     document.getElementById('registerModal').style.display = 'flex';
+    toggleBackgroundMusic(); // Play music when register modal opens
 });
 
 document.getElementById('submitLogin').addEventListener('click', handleLogin);
