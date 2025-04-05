@@ -47,11 +47,10 @@
         <div class="game-area" id="gameArea">
             <div id="grid" class="grid"></div>
             <div id="options" class="options">
-                <h4>Pick the right shape:</h4>
+                <div id="message" class="message"></div>
                 <div id="shapeButtons"></div>
                 <button id="startGame">Start Game</button>
             </div>
-            <div id="message" class="message"></div>
         </div>
     </div>
     <div id="countdownModal" class="modal">
@@ -93,12 +92,12 @@
     </div>
     <div id="sound" class="sound">
         <div class="mode-toggle">
-            <label class="toggle-label" for="musicToggle">Normal Mode</label>
+            <label class="toggle-label" for="musicToggle">Meme Mode</label>
             <label class="toggle-switch">
                 <input type="checkbox" id="musicToggle" unchecked>
                 <span class="toggle-slider"></span>
             </label>
-            <label class="toggle-label" for="musicToggle">Meme Mode</label>
+            <label class="toggle-label" for="musicToggle"></label>
         </div>
         <button id="soundButton" class="mute-button playing">🔊 Sound</button> <!-- New sound button -->
         <button id="bgmusicbutton" class="mute-button playing">🔊 Music</button> <!-- New music button -->

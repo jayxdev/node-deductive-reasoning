@@ -212,6 +212,8 @@ function fetchNewGame() {
 }
 
 function displayGrid(gridData) {
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent="Choose the correct shape!";
     const gridDiv = document.getElementById('grid');
     gridDiv.innerHTML = '';
     gridData.forEach(row => {
@@ -229,6 +231,10 @@ function displayGrid(gridData) {
 
 function displayOptions(shapes, ans) {
     const shapeButtonsDiv = document.getElementById('shapeButtons');
+    const messageDiv = document.getElementById('message');
+    messageDiv.textContent="Choose the correct shape!";
+    messageDiv.style.opacity = '1'; // Ensure message is visible
+    messageDiv.className = 'nomessage'; // Reset message class
     shapeButtonsDiv.innerHTML = '';
     shapes.forEach(shape => {
         const button = document.createElement('button');

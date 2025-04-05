@@ -199,6 +199,14 @@ h2 {
     background: rgba(0, 0, 0, 0.8); /* Consistent base background */
 }
 
+.nomessage {
+    margin-top: 25px;
+    font: 1.3em sans-serif;
+    padding: 12px 20px;
+    border-radius: 10px;
+    color: #fff;
+}
+
 .message.success {
     background: rgba(76, 175, 80, 0.95);
     box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
@@ -339,7 +347,7 @@ h2 {
 
     .wrong-count {
         position: fixed;
-        top: 15%; /* Below timer (2.5em font + padding) */
+        top: 10%; /* Below timer (2.5em font + padding) */
         left: 50%;
         transform: translateX(-50%);
         font-size: 1.2em;
@@ -408,7 +416,7 @@ h2 {
     }
 
     .timer-display {
-        font-size: 4em;
+        font-size: 3em;
     }
 
     #startGame {
